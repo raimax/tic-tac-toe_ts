@@ -1,3 +1,4 @@
+import { GameState } from "./enums/GameState.js";
 import { Game } from "./Game.js";
 import { Input } from "./helpers/Input.js";
 const canvas = document.getElementById("myCanvas");
@@ -30,5 +31,10 @@ canvas.addEventListener("click", (e) => {
 });
 canvas.addEventListener("mouseout", (e) => {
     Input.setMousePos({ x: -999, y: -999 });
+});
+window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+        game.setGameState(GameState.START);
+    }
 });
 //# sourceMappingURL=main.js.map

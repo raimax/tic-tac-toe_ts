@@ -1,8 +1,8 @@
 import { Vector2 } from "../models/Vector2.js";
 
 export class Input {
-  private static mousePos: Vector2;
-  private static mouseClickPos: Vector2;
+  private static mousePos: Vector2 = { x: -999, y: -999 };
+  private static mouseClickPos: Vector2 = { x: -999, y: -999 };
 
   static getMousePos(): Vector2 {
     return this.mousePos;
@@ -18,5 +18,9 @@ export class Input {
 
   static setMouseClickPos(position: Vector2) {
     this.mouseClickPos = position;
+  }
+
+  static resetClickPos() {
+    this.mouseClickPos = { x: -999, y: -999 };
   }
 }
