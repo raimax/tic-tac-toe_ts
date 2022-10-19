@@ -1,17 +1,18 @@
 import { Draw } from "./helpers/Draw.js";
 import { GameState } from "./enums/GameState.js";
 import { MainManu } from "./states/MainMenu.js";
-import { Map } from "./states/Map.js";
+import { Board } from "./states/Board.js";
 export class Game {
     constructor(ctx) {
         this.windowSize = { width: 1920, height: 1080 };
-        this.gameState = GameState.START;
+        this.gameState = GameState.GAMEPLAY;
         this.mainMenu = new MainManu(this);
-        this.map = new Map(this);
+        this.board = new Board(this);
         this.ctx = ctx;
     }
     init() {
         this.mainMenu.init();
+        this.board.init();
     }
     draw(ctx, windowSize) {
         Draw.clearScreen(ctx, windowSize);
@@ -20,7 +21,7 @@ export class Game {
                 this.mainMenu.draw(ctx, windowSize);
                 break;
             case GameState.GAMEPLAY:
-                this.map.draw(ctx, windowSize);
+                this.board.draw(ctx, windowSize);
                 break;
             case GameState.END:
                 break;
@@ -34,7 +35,7 @@ export class Game {
                 this.mainMenu.update(windowSize);
                 break;
             case GameState.GAMEPLAY:
-                this.map.update(windowSize);
+                this.board.update(windowSize);
                 break;
             case GameState.END:
                 break;

@@ -43,4 +43,13 @@ export class Draw {
       position.y + 65
     );
   }
+
+  static image(
+    image: CanvasImageSource,
+    ctx: CanvasRenderingContext2D,
+    position: Vector2,
+    box: Rectangle
+  ) {
+    ctx.drawImage(image, position.x, position.y);
+  }
 }

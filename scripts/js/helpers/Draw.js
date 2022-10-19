@@ -17,5 +17,8 @@ export class Draw {
         ctx.fillStyle = color;
         ctx.fillText(text, position.x + box.width / 2 - textWidth.width / 2, position.y + 65);
     }
+    static image(image, ctx, position, box) {
+        ctx.drawImage(image, position.x, position.y);
+    }
 }
 //# sourceMappingURL=Draw.js.map

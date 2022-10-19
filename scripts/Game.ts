@@ -2,14 +2,14 @@ import { Rectangle } from "./models/Rectangle.js";
 import { Draw } from "./helpers/Draw.js";
 import { GameState } from "./enums/GameState.js";
 import { MainManu } from "./states/MainMenu.js";
-import { Map } from "./states/Map.js";
+import { Board } from "./states/Board.js";
 
 export class Game {
   private ctx: CanvasRenderingContext2D;
   private windowSize: Rectangle = { width: 1920, height: 1080 };
-  private gameState: GameState = GameState.START;
+  private gameState: GameState = GameState.GAMEPLAY;
   private mainMenu: MainManu = new MainManu(this);
-  private map: Map = new Map(this);
+  private board: Board = new Board(this);
 
   constructor(ctx: CanvasRenderingContext2D) {
     this.ctx = ctx;
@@ -17,6 +17,7 @@ export class Game {
 
   init() {
     this.mainMenu.init();
+    this.board.init();
   }
 
   private draw(ctx: CanvasRenderingContext2D, windowSize: Rectangle) {
@@ -27,7 +28,7 @@ export class Game {
         this.mainMenu.draw(ctx, windowSize);
         break;
       case GameState.GAMEPLAY:
-        this.map.draw(ctx, windowSize);
+        this.board.draw(ctx, windowSize);
         break;
       case GameState.END:
         break;
@@ -42,7 +43,7 @@ export class Game {
         this.mainMenu.update(windowSize);
         break;
       case GameState.GAMEPLAY:
-        this.map.update(windowSize);
+        this.board.update(windowSize);
         break;
       case GameState.END:
         break;
