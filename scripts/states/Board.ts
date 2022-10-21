@@ -1,4 +1,6 @@
+import { GameState } from "../enums/GameState.js";
 import { Game } from "../Game.js";
+import { GameManager } from "../GameManager.js";
 import { Draw } from "../helpers/Draw.js";
 import { Player } from "../models/Player.js";
 import { Rectangle } from "../models/Rectangle.js";
@@ -10,20 +12,22 @@ export class Board {
   private tiles: Tile[] = [];
   private players: Player[] = [];
   private currentPlayer: Player;
-  private boardSize: Rectangle = { width: 3, height: 3 };
+  //private boardSize: Rectangle = GameManager.getBoardSize();
+  private gameOver: boolean = false;
 
   constructor(gameInstance: Game) {
     this.gameInstance = gameInstance;
   }
 
   init() {
-    this.setupTiles(this.boardSize);
+    this.setupTiles(GameManager.getBoardSize());
     this.setupPlayers();
   }
 
   draw(ctx: CanvasRenderingContext2D, windowSize: Rectangle) {
     this.drawBackground(ctx, windowSize);
     this.drawTiles(ctx, windowSize);
+    this.drawTurnInfo(ctx);
   }
 
   update(windowSize: Rectangle) {
@@ -40,6 +44,17 @@ export class Board {
     );
   }
 
+  private drawTurnInfo(ctx: CanvasRenderingContext2D) {
+    Draw.rectangle(ctx, { x: 0, y: 50 }, { width: 230, height: 70 });
+    Draw.text(
+      `${this.getLastPlayer().name}'s turn`,
+      ctx,
+      { x: 10, y: 95 },
+      "white",
+      28
+    );
+  }
+
   private drawTiles(ctx: CanvasRenderingContext2D, windowSize: Rectangle) {
     this.tiles.forEach((tile) => {
       tile.draw(ctx, windowSize);
@@ -53,6 +68,7 @@ export class Board {
   }
 
   private setupTiles(boradSize: Rectangle) {
+    this.tiles = [];
     let id = 1;
     for (let i = 0; i < boradSize.height; i++) {
       for (let j = 0; j < boradSize.width; j++) {
@@ -99,7 +115,9 @@ export class Board {
 
   private checkForDraw() {
     if (this.tiles.length === this.getMoveCount()) {
-      console.log("draw");
+      this.gameOver = true;
+      GameManager.setWinner(null);
+      this.gameInstance.setGameState(GameState.END);
     }
   }
 
@@ -123,7 +141,7 @@ export class Board {
 
   private getLeftTile(tiles: Tile[], i: number, player: Player): Tile | null {
     //check if not out of bounds
-    if (!this.isOutOfBoundsHorizontal(tiles, i)) {
+    if (!this.isOutOfBoundsVerticalLeft(tiles, i)) {
       //check if horizontal
       if (this.isHorizontal(tiles[i - 1], tiles[i].getCoordinates())) {
         //check if from same player
@@ -174,7 +192,7 @@ export class Board {
 
   private getRightTile(tiles: Tile[], i: number, player: Player): Tile | null {
     //check if not out of bounds
-    if (!this.isOutOfBoundsHorizontal(tiles, i)) {
+    if (!this.isOutOfBoundsVerticalRight(tiles, i)) {
       //check if horizontal
       if (this.isHorizontal(tiles[i + 1], tiles[i].getCoordinates())) {
         //check if from same player
@@ -298,7 +316,9 @@ export class Board {
   }
 
   private onWin() {
-    console.log(`${this.getLastPlayer().name} wins`);
+    this.gameOver = true;
+    GameManager.setWinner(this.getLastPlayer());
+    this.gameInstance.setGameState(GameState.END);
   }
 
   getLastPlayer(): Player {
@@ -487,5 +507,13 @@ export class Board {
         this.onWin();
       }
     }
+  }
+
+  isGameOver(): boolean {
+    return this.gameOver;
+  }
+
+  setIsGameOver(value: boolean) {
+    this.gameOver = value;
   }
 }

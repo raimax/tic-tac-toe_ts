@@ -37,7 +37,7 @@ canvas.addEventListener("click", (e) => {
   Input.setMouseClickPos({ x: canvasX, y: canvasY });
 });
 
-canvas.addEventListener("mouseout", (e) => {
+canvas.addEventListener("mouseout", () => {
   Input.setMousePos({ x: -999, y: -999 });
 });
 

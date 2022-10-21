@@ -1,5 +1,6 @@
 export enum GameState {
-	START,
-	GAMEPLAY,
-	END
+  START,
+  BOARD_SELECT,
+  GAMEPLAY,
+  END,
 }

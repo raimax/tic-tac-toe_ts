@@ -20,9 +20,10 @@ export class Draw {
     text: string,
     ctx: CanvasRenderingContext2D,
     position: Vector2,
-    color: string = "white"
+    color: string = "white",
+		fontSize?: number
   ) {
-    ctx.font = "48px Verdana";
+    ctx.font = `${fontSize || 48}px Verdana`;
     ctx.fillStyle = color;
     ctx.fillText(text, position.x, position.y);
   }
@@ -32,9 +33,10 @@ export class Draw {
     ctx: CanvasRenderingContext2D,
     position: Vector2,
     box: Rectangle,
-    color: string = "white"
+    color: string = "white",
+		fontSize?: number
   ) {
-    ctx.font = "48px Verdana";
+    ctx.font = `${fontSize || 48}px Verdana`;
     const textWidth = ctx.measureText(text);
     ctx.fillStyle = color;
     ctx.fillText(

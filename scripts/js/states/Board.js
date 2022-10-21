@@ -1,3 +1,5 @@
+import { GameState } from "../enums/GameState.js";
+import { GameManager } from "../GameManager.js";
 import { Draw } from "../helpers/Draw.js";
 import { Player } from "../models/Player.js";
 import { Tile } from "../Tile.js";
@@ -5,16 +7,18 @@ export class Board {
     constructor(gameInstance) {
         this.tiles = [];
         this.players = [];
-        this.boardSize = { width: 3, height: 3 };
+        //private boardSize: Rectangle = GameManager.getBoardSize();
+        this.gameOver = false;
         this.gameInstance = gameInstance;
     }
     init() {
-        this.setupTiles(this.boardSize);
+        this.setupTiles(GameManager.getBoardSize());
         this.setupPlayers();
     }
     draw(ctx, windowSize) {
         this.drawBackground(ctx, windowSize);
         this.drawTiles(ctx, windowSize);
+        this.drawTurnInfo(ctx);
     }
     update(windowSize) {
         this.updateTiles(windowSize);
@@ -22,6 +26,10 @@ export class Board {
     }
     drawBackground(ctx, windowSize) {
         Draw.rectangle(ctx, { x: 0, y: 0 }, { width: windowSize.width, height: windowSize.height }, "DimGray");
+    }
+    drawTurnInfo(ctx) {
+        Draw.rectangle(ctx, { x: 0, y: 50 }, { width: 230, height: 70 });
+        Draw.text(`${this.getLastPlayer().name}'s turn`, ctx, { x: 10, y: 95 }, "white", 28);
     }
     drawTiles(ctx, windowSize) {
         this.tiles.forEach((tile) => {
@@ -34,6 +42,7 @@ export class Board {
         });
     }
     setupTiles(boradSize) {
+        this.tiles = [];
         let id = 1;
         for (let i = 0; i < boradSize.height; i++) {
             for (let j = 0; j < boradSize.width; j++) {
@@ -69,7 +78,9 @@ export class Board {
     }
     checkForDraw() {
         if (this.tiles.length === this.getMoveCount()) {
-            console.log("draw");
+            this.gameOver = true;
+            GameManager.setWinner(null);
+            this.gameInstance.setGameState(GameState.END);
         }
     }
     checkForWin(tiles, tile, player) {
@@ -89,7 +100,7 @@ export class Board {
     getLeftTile(tiles, i, player) {
         var _a;
         //check if not out of bounds
-        if (!this.isOutOfBoundsHorizontal(tiles, i)) {
+        if (!this.isOutOfBoundsVerticalLeft(tiles, i)) {
             //check if horizontal
             if (this.isHorizontal(tiles[i - 1], tiles[i].getCoordinates())) {
                 //check if from same player
@@ -130,7 +141,7 @@ export class Board {
     getRightTile(tiles, i, player) {
         var _a;
         //check if not out of bounds
-        if (!this.isOutOfBoundsHorizontal(tiles, i)) {
+        if (!this.isOutOfBoundsVerticalRight(tiles, i)) {
             //check if horizontal
             if (this.isHorizontal(tiles[i + 1], tiles[i].getCoordinates())) {
                 //check if from same player
@@ -239,7 +250,9 @@ export class Board {
         }
     }
     onWin() {
-        console.log(`${this.getLastPlayer().name} wins`);
+        this.gameOver = true;
+        GameManager.setWinner(this.getLastPlayer());
+        this.gameInstance.setGameState(GameState.END);
     }
     getLastPlayer() {
         return this.players[0].name !== this.currentPlayer.name
@@ -363,6 +376,12 @@ export class Board {
                 this.onWin();
             }
         }
+    }
+    isGameOver() {
+        return this.gameOver;
+    }
+    setIsGameOver(value) {
+        this.gameOver = value;
     }
 }
 //# sourceMappingURL=Board.js.map

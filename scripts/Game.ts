@@ -3,13 +3,17 @@ import { Draw } from "./helpers/Draw.js";
 import { GameState } from "./enums/GameState.js";
 import { MainManu } from "./states/MainMenu.js";
 import { Board } from "./states/Board.js";
+import { EndMenu } from "./states/EndMenu.js";
+import { BoardSelect } from "./states/BoardSelect.js";
 
 export class Game {
   private ctx: CanvasRenderingContext2D;
   private windowSize: Rectangle = { width: 1920, height: 1080 };
-  private gameState: GameState = GameState.GAMEPLAY;
+  private gameState: GameState = GameState.START;
   private mainMenu: MainManu = new MainManu(this);
+  private boardSelect: BoardSelect = new BoardSelect(this);
   private board: Board = new Board(this);
+  private endMenu: EndMenu = new EndMenu(this);
 
   constructor(ctx: CanvasRenderingContext2D) {
     this.ctx = ctx;
@@ -17,7 +21,8 @@ export class Game {
 
   init() {
     this.mainMenu.init();
-    this.board.init();
+    this.boardSelect.init();
+    this.endMenu.init();
   }
 
   private draw(ctx: CanvasRenderingContext2D, windowSize: Rectangle) {
@@ -27,10 +32,18 @@ export class Game {
       case GameState.START:
         this.mainMenu.draw(ctx, windowSize);
         break;
+      case GameState.BOARD_SELECT:
+        this.boardSelect.draw(ctx, windowSize);
+        break;
       case GameState.GAMEPLAY:
+        if (this.board.isGameOver()) {
+          this.board = new Board(this);
+          this.board.init();
+        }
         this.board.draw(ctx, windowSize);
         break;
       case GameState.END:
+        this.endMenu.draw(ctx, windowSize);
         break;
       default:
         break;
@@ -42,10 +55,14 @@ export class Game {
       case GameState.START:
         this.mainMenu.update(windowSize);
         break;
+      case GameState.BOARD_SELECT:
+        this.boardSelect.update(windowSize);
+        break;
       case GameState.GAMEPLAY:
         this.board.update(windowSize);
         break;
       case GameState.END:
+        this.endMenu.update(windowSize);
         break;
       default:
         break;
@@ -71,4 +88,8 @@ export class Game {
   setGameState(gameState: GameState) {
     this.gameState = gameState;
   }
+
+	getBoard() {
+		return this.board;
+	}
 }

@@ -6,13 +6,13 @@ export class Draw {
         ctx.fillStyle = color;
         ctx.fillRect(position.x, position.y, size.width, size.height);
     }
-    static text(text, ctx, position, color = "white") {
-        ctx.font = "48px Verdana";
+    static text(text, ctx, position, color = "white", fontSize) {
+        ctx.font = `${fontSize || 48}px Verdana`;
         ctx.fillStyle = color;
         ctx.fillText(text, position.x, position.y);
     }
-    static boxText(text, ctx, position, box, color = "white") {
-        ctx.font = "48px Verdana";
+    static boxText(text, ctx, position, box, color = "white", fontSize) {
+        ctx.font = `${fontSize || 48}px Verdana`;
         const textWidth = ctx.measureText(text);
         ctx.fillStyle = color;
         ctx.fillText(text, position.x + box.width / 2 - textWidth.width / 2, position.y + 65);
