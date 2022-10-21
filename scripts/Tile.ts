@@ -5,13 +5,23 @@ import { Rectangle } from "./models/Rectangle.js";
 import { Vector2 } from "./models/Vector2.js";
 
 export class Tile {
+  private id;
+  private coordinates: Vector2;
   private position: Vector2;
   private size: Rectangle = { width: 150, height: 150 };
   private offset: Vector2;
   private isTakenByPlayer: Player | null = null;
   private command: Function;
 
-  constructor(position: Vector2, offset: Vector2, command: Function) {
+  constructor(
+    id: number,
+    coordinates: Vector2,
+    position: Vector2,
+    offset: Vector2,
+    command: Function
+  ) {
+    this.id = id;
+    this.coordinates = coordinates;
     this.position = position;
     this.offset = offset;
     this.command = command;
@@ -44,7 +54,7 @@ export class Tile {
   update(windowSize: Rectangle) {
     if (this.isBeingClicked(windowSize)) {
       if (this.isTakenByPlayer === null) {
-        this.isTakenByPlayer = this.command();
+        this.isTakenByPlayer = this.command(this);
       }
       Input.resetClickPos();
     }
@@ -100,5 +110,13 @@ export class Tile {
 
   getPlayer(): Player {
     return this.isTakenByPlayer;
+  }
+
+  getId() {
+    return this.id;
+  }
+
+  getCoordinates() {
+    return this.coordinates;
   }
 }

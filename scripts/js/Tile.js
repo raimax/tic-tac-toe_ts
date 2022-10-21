@@ -1,9 +1,11 @@
 import { Draw } from "./helpers/Draw.js";
 import { Input } from "./helpers/Input.js";
 export class Tile {
-    constructor(position, offset, command) {
+    constructor(id, coordinates, position, offset, command) {
         this.size = { width: 150, height: 150 };
         this.isTakenByPlayer = null;
+        this.id = id;
+        this.coordinates = coordinates;
         this.position = position;
         this.offset = offset;
         this.command = command;
@@ -23,7 +25,7 @@ export class Tile {
     update(windowSize) {
         if (this.isBeingClicked(windowSize)) {
             if (this.isTakenByPlayer === null) {
-                this.isTakenByPlayer = this.command();
+                this.isTakenByPlayer = this.command(this);
             }
             Input.resetClickPos();
         }
@@ -71,6 +73,12 @@ export class Tile {
     }
     getPlayer() {
         return this.isTakenByPlayer;
+    }
+    getId() {
+        return this.id;
+    }
+    getCoordinates() {
+        return this.coordinates;
     }
 }
 //# sourceMappingURL=Tile.js.map
