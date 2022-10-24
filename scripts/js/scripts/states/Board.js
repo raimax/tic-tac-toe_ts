@@ -1,8 +1,8 @@
-import { GameState } from "../enums/GameState.js";
-import { GameManager } from "../GameManager.js";
-import { Draw } from "../helpers/Draw.js";
-import { Player } from "../models/Player.js";
-import { Tile } from "../Tile.js";
+import { GameState } from "../enums/GameState";
+import { GameManager } from "../GameManager";
+import { Draw } from "../helpers/Draw";
+import { Player } from "../models/Player";
+import { Tile } from "../Tile";
 export class Board {
     constructor(gameInstance) {
         this.tiles = [];

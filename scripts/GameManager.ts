@@ -1,5 +1,5 @@
-import { Player } from "./models/Player.js";
-import { Rectangle } from "./models/Rectangle.js";
+import { Player } from "./models/Player";
+import { Rectangle } from "./models/Rectangle";
 
 export class GameManager {
   private static winner: Player;

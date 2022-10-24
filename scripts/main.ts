@@ -1,6 +1,6 @@
-import { GameState } from "./enums/GameState.js";
-import { Game } from "./Game.js";
-import { Input } from "./helpers/Input.js";
+import { GameState } from "./enums/GameState";
+import { Game } from "./Game";
+import { Input } from "./helpers/Input";
 
 const canvas = <HTMLCanvasElement>document.getElementById("myCanvas");
 const ctx = canvas.getContext("2d");

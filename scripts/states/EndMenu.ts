@@ -1,10 +1,10 @@
-import { Button } from "../Button.js";
-import { ButtonGroup } from "../ButtonGroup.js";
-import { GameState } from "../enums/GameState.js";
-import { Game } from "../Game.js";
-import { GameManager } from "../GameManager.js";
-import { Draw } from "../helpers/Draw.js";
-import { Rectangle } from "../models/Rectangle.js";
+import { Button } from "../Button";
+import { ButtonGroup } from "../ButtonGroup";
+import { GameState } from "../enums/GameState";
+import { Game } from "../Game";
+import { GameManager } from "../GameManager";
+import { Draw } from "../helpers/Draw";
+import { Rectangle } from "../models/Rectangle";
 
 export class EndMenu {
   private buttonGroup: ButtonGroup = new ButtonGroup();

@@ -1,18 +1,17 @@
-import { GameState } from "../enums/GameState.js";
-import { Game } from "../Game.js";
-import { GameManager } from "../GameManager.js";
-import { Draw } from "../helpers/Draw.js";
-import { Player } from "../models/Player.js";
-import { Rectangle } from "../models/Rectangle.js";
-import { Vector2 } from "../models/Vector2.js";
-import { Tile } from "../Tile.js";
+import { GameState } from "../enums/GameState";
+import { Game } from "../Game";
+import { GameManager } from "../GameManager";
+import { Draw } from "../helpers/Draw";
+import { Player } from "../models/Player";
+import { Rectangle } from "../models/Rectangle";
+import { Vector2 } from "../models/Vector2";
+import { Tile } from "../Tile";
 
 export class Board {
   private gameInstance: Game;
   private tiles: Tile[] = [];
   private players: Player[] = [];
   private currentPlayer: Player;
-  //private boardSize: Rectangle = GameManager.getBoardSize();
   private gameOver: boolean = false;
 
   constructor(gameInstance: Game) {
@@ -35,7 +34,7 @@ export class Board {
     this.checkForDraw();
   }
 
-  private drawBackground(ctx: CanvasRenderingContext2D, windowSize: Rectangle) {
+  drawBackground(ctx: CanvasRenderingContext2D, windowSize: Rectangle) {
     Draw.rectangle(
       ctx,
       { x: 0, y: 0 },
@@ -44,7 +43,7 @@ export class Board {
     );
   }
 
-  private drawTurnInfo(ctx: CanvasRenderingContext2D) {
+  drawTurnInfo(ctx: CanvasRenderingContext2D) {
     Draw.rectangle(ctx, { x: 0, y: 50 }, { width: 230, height: 70 });
     Draw.text(
       `${this.getLastPlayer().name}'s turn`,
@@ -55,19 +54,19 @@ export class Board {
     );
   }
 
-  private drawTiles(ctx: CanvasRenderingContext2D, windowSize: Rectangle) {
+  drawTiles(ctx: CanvasRenderingContext2D, windowSize: Rectangle) {
     this.tiles.forEach((tile) => {
       tile.draw(ctx, windowSize);
     });
   }
 
-  private updateTiles(windowSize: Rectangle) {
+  updateTiles(windowSize: Rectangle) {
     this.tiles.forEach((tile) => {
       tile.update(windowSize);
     });
   }
 
-  private setupTiles(boradSize: Rectangle) {
+  setupTiles(boradSize: Rectangle) {
     this.tiles = [];
     let id = 1;
     for (let i = 0; i < boradSize.height; i++) {
@@ -89,14 +88,14 @@ export class Board {
     }
   }
 
-  private setupPlayers() {
+  setupPlayers() {
     this.players.push(new Player("Player 1", "images/o.png"));
     this.players.push(new Player("Player 2", "images/x.png"));
 
     this.currentPlayer = this.players[1];
   }
 
-  private passCurrentPlayer(): Player {
+  passCurrentPlayer(): Player {
     if (this.currentPlayer === this.players[0]) {
       this.currentPlayer = this.players[1];
     } else {
@@ -105,7 +104,7 @@ export class Board {
     return this.currentPlayer;
   }
 
-  private getMoveCount(): number {
+  getMoveCount(): number {
     let moves: number = 0;
     this.tiles.forEach((tile) => {
       if (tile.isTaken()) moves++;
@@ -113,7 +112,7 @@ export class Board {
     return moves;
   }
 
-  private checkForDraw() {
+  checkForDraw() {
     if (this.tiles.length === this.getMoveCount()) {
       this.gameOver = true;
       GameManager.setWinner(null);
@@ -121,7 +120,7 @@ export class Board {
     }
   }
 
-  private checkForWin(tiles: Tile[], tile: Tile, player: Player) {
+  checkForWin(tiles: Tile[], tile: Tile, player: Player) {
     this.checkLeftHorizontal(tiles, tile.getId() - 1, player);
     this.checkRightHorizontal(tiles, tile.getId() - 1, player);
     this.checkAdjacentHorizontal(tiles, tile.getId() - 1, player);
@@ -139,7 +138,7 @@ export class Board {
     this.checkRightAdjacentDiagonal(tiles, tile.getId() - 1, player);
   }
 
-  private getLeftTile(tiles: Tile[], i: number, player: Player): Tile | null {
+  getLeftTile(tiles: Tile[], i: number, player: Player): Tile | null {
     //check if not out of bounds
     if (!this.isOutOfBoundsVerticalLeft(tiles, i)) {
       //check if horizontal
@@ -153,12 +152,12 @@ export class Board {
     return null;
   }
 
-  private isHorizontal(tile: Tile, coordinates: Vector2): boolean {
+  isHorizontal(tile: Tile, coordinates: Vector2): boolean {
     if (tile.getCoordinates().x === coordinates.x) return true;
     return false;
   }
 
-  private checkLeftHorizontal(tiles: Tile[], i: number, player: Player) {
+  checkLeftHorizontal(tiles: Tile[], i: number, player: Player) {
     //check left
     const leftTile = this.getLeftTile(tiles, i, player);
     if (leftTile) {
@@ -174,7 +173,7 @@ export class Board {
     }
   }
 
-  private checkRightHorizontal(tiles: Tile[], i: number, player: Player) {
+  checkRightHorizontal(tiles: Tile[], i: number, player: Player) {
     //check right
     const rightTile = this.getRightTile(tiles, i, player);
     if (rightTile) {
@@ -190,7 +189,7 @@ export class Board {
     }
   }
 
-  private getRightTile(tiles: Tile[], i: number, player: Player): Tile | null {
+  getRightTile(tiles: Tile[], i: number, player: Player): Tile | null {
     //check if not out of bounds
     if (!this.isOutOfBoundsVerticalRight(tiles, i)) {
       //check if horizontal
@@ -204,7 +203,7 @@ export class Board {
     return null;
   }
 
-  private checkBottomVertical(tiles: Tile[], i: number, player: Player) {
+  checkBottomVertical(tiles: Tile[], i: number, player: Player) {
     //check right
     const bottomTile = this.getBottomTile(tiles, i, player);
     if (bottomTile) {
@@ -220,7 +219,7 @@ export class Board {
     }
   }
 
-  private getBottomTile(tiles: Tile[], i: number, player: Player): Tile | null {
+  getBottomTile(tiles: Tile[], i: number, player: Player): Tile | null {
     //check if not out of bounds
     if (!this.isOutOfBoundsVerticalRight(tiles, i)) {
       for (let j = i + 1; j < tiles.length; j++) {
@@ -236,30 +235,30 @@ export class Board {
     return null;
   }
 
-  private isOutOfBoundsHorizontal(tiles: Tile[], i: number): boolean {
-    if (Math.sign(i - 1) < 0) {
-      return true;
-    } else if (tiles.length <= i + 1) {
-      return true;
-    }
-    return false;
-  }
+  // isOutOfBoundsHorizontal(tiles: Tile[], i: number): boolean {
+  //   if (Math.sign(i - 1) < 0) {
+  //     return true;
+  //   } else if (tiles.length <= i + 1) {
+  //     return true;
+  //   }
+  //   return false;
+  // }
 
-  private isOutOfBoundsVerticalRight(tiles: Tile[], i: number): boolean {
+  isOutOfBoundsVerticalRight(tiles: Tile[], i: number): boolean {
     if (tiles.length <= i + 1) {
       return true;
     }
     return false;
   }
 
-  private isOutOfBoundsVerticalLeft(tiles: Tile[], i: number): boolean {
+  isOutOfBoundsVerticalLeft(tiles: Tile[], i: number): boolean {
     if (0 > i - 1) {
       return true;
     }
     return false;
   }
 
-  private checkTopVertical(tiles: Tile[], i: number, player: Player) {
+  checkTopVertical(tiles: Tile[], i: number, player: Player) {
     //check right
     const topTile = this.getTopTile(tiles, i, player);
     if (topTile) {
@@ -275,7 +274,7 @@ export class Board {
     }
   }
 
-  private getTopTile(tiles: Tile[], i: number, player: Player): Tile | null {
+  getTopTile(tiles: Tile[], i: number, player: Player): Tile | null {
     //check if not out of bounds
     if (!this.isOutOfBoundsVerticalLeft(tiles, i)) {
       for (let j = i - 1; j >= 0; j--) {
@@ -291,7 +290,7 @@ export class Board {
     return null;
   }
 
-  private checkAdjacentHorizontal(tiles: Tile[], i: number, player: Player) {
+  checkAdjacentHorizontal(tiles: Tile[], i: number, player: Player) {
     //check left
     const leftTile = this.getLeftTile(tiles, i, player);
     if (leftTile) {
@@ -303,7 +302,7 @@ export class Board {
     }
   }
 
-  private checkAdjacentVertical(tiles: Tile[], i: number, player: Player) {
+  checkAdjacentVertical(tiles: Tile[], i: number, player: Player) {
     //check left
     const leftTile = this.getTopTile(tiles, i, player);
     if (leftTile) {
@@ -315,7 +314,7 @@ export class Board {
     }
   }
 
-  private onWin() {
+  onWin() {
     this.gameOver = true;
     GameManager.setWinner(this.getLastPlayer());
     this.gameInstance.setGameState(GameState.END);

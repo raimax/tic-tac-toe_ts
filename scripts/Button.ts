@@ -1,7 +1,7 @@
-import { Draw } from "./helpers/Draw.js";
-import { Input } from "./helpers/Input.js";
-import { Rectangle } from "./models/Rectangle.js";
-import { Vector2 } from "./models/Vector2.js";
+import { Draw } from "./helpers/Draw";
+import { Input } from "./helpers/Input";
+import { Rectangle } from "./models/Rectangle";
+import { Vector2 } from "./models/Vector2";
 
 export class Button {
   text: string;

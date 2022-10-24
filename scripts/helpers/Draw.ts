@@ -1,5 +1,5 @@
-import { Rectangle } from "../models/Rectangle.js";
-import { Vector2 } from "../models/Vector2.js";
+import { Rectangle } from "../models/Rectangle";
+import { Vector2 } from "../models/Vector2";
 
 export class Draw {
   static clearScreen(ctx: CanvasRenderingContext2D, windowSize: Rectangle) {

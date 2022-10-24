@@ -1,10 +1,10 @@
-import { Rectangle } from "./models/Rectangle.js";
-import { Draw } from "./helpers/Draw.js";
-import { GameState } from "./enums/GameState.js";
-import { MainManu } from "./states/MainMenu.js";
-import { Board } from "./states/Board.js";
-import { EndMenu } from "./states/EndMenu.js";
-import { BoardSelect } from "./states/BoardSelect.js";
+import { Rectangle } from "./models/Rectangle";
+import { Draw } from "./helpers/Draw";
+import { GameState } from "./enums/GameState";
+import { MainManu } from "./states/MainMenu";
+import { Board } from "./states/Board";
+import { EndMenu } from "./states/EndMenu";
+import { BoardSelect } from "./states/BoardSelect";
 
 export class Game {
   private ctx: CanvasRenderingContext2D;

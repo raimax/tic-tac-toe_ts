@@ -1,5 +1,5 @@
-import { Button } from "./Button.js";
-import { Rectangle } from "./models/Rectangle.js";
+import { Button } from "./Button";
+import { Rectangle } from "./models/Rectangle";
 
 export class ButtonGroup {
   private buttons: Button[] = [];

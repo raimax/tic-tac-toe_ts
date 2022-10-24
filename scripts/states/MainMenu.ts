@@ -1,9 +1,9 @@
-import { Button } from "../Button.js";
-import { ButtonGroup } from "../ButtonGroup.js";
-import { GameState } from "../enums/GameState.js";
-import { Game } from "../Game.js";
-import { Draw } from "../helpers/Draw.js";
-import { Rectangle } from "../models/Rectangle.js";
+import { Button } from "../Button";
+import { ButtonGroup } from "../ButtonGroup";
+import { GameState } from "../enums/GameState";
+import { Game } from "../Game";
+import { Draw } from "../helpers/Draw";
+import { Rectangle } from "../models/Rectangle";
 
 export class MainManu {
   private buttonGroup: ButtonGroup = new ButtonGroup();
